@@ -1,10 +1,8 @@
-let TelegramBot;
-TelegramBot=require('node-telegram-bot-api');
-let bot;
-bot=require('./bot');
+const TelegramBot=require('node-telegram-bot-api');
+const bot=require('./bot');
 require('dotenv').config();
 const e=require('express');
-let  fs=require('fs');
+const  fs=require('fs');
 const cors=require('cors');
 const path = require('path');
 const app=e();
@@ -41,8 +39,6 @@ app.post('/',(req,res)=>{
     const data=req.body;
     console.log(data);
     bot.Bot(data);
-   
-    res.json({name:"kaif"});
 })
 
 app.listen(port,()=>{console.log("running on port 3000")});

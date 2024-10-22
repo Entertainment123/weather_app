@@ -1,26 +1,26 @@
+const base_path='assetts/animated/';
+
 const weatherIcons = {
-    Clear: ['assetts/animated/clear-day.svg','assetts/animated/clear-night.svg'],
-    Clouds: ['assetts/animated/cloudy-1-day.svg','assetts/animated/cloudy-1-night.svg'],
-    Rain: ['assetts/animated/rainy-1-day.svg','assetts/animated/rainy-1-night.svg'],
-    Drizzle: ['assetts/animated/cloudy-1-day.svg','assetts/animated/cloudy-1-night.svg'],
-    Thunderstorm: ['assetts/animated/thunderstorm.svg','assetts/animated/thunderstorm.svg'],
-    Snow: ['assetts/animated/snowy-1-day.svg','assetts/animated/snowy-1-night.svg'],
-    Mist: ['assetts/animated/cloudy-1-day.svg','assetts/animated/cloudy-1-night.svg'],
-    Smoke: ['assetts/animated/cloudy-1-day.svg','assetts/animated/cloudy-1-night.svg'],
-    Haze: ['assetts/animated/haze-day.svg','assetts/animated/haze-night.svg'],
-    Dust: ['assetts/animated/dust.svg','assetts/animated/dust.svg'],
-    Fog: ['assetts/animated/fog-day.svg','assetts/animated/fog-night.svg'],
-    Sand: ['assetts/animated/cloudy-1-day.svg','assetts/animated/cloudy-1-night.svg'],
-    Ash: ['assetts/animated/cloudy-1-day.svg','assetts/animated/cloudy-1-night.svg'],
-    Squall: ['assetts/animated/cloudy-1-day.svg','assetts/animated/cloudy-1-night.svg'],
-    Tornado: ['assetts/animated/tornado.svg','assetts/animated/tornado.svg']
-  };
-function path_helper(ampm,time,key){
-    console.log(time,ampm,key);
-    const i=parseInt(time)>=6?(ampm==='AM'?1:0):(ampm==='PM'?0:1);
-    console.log(weatherIcons[key][i]);
-    return weatherIcons[key][i];
-}
+    '01d': `${base_path}clear-day.svg`,
+    '01n': `${base_path}clear-night.svg`,
+    '02d': `${base_path}cloudy-1-day.svg`,
+    '02n': `${base_path}cloudy-1-night.svg`,
+    '03d': `${base_path}cloudy-1-day.svg`,
+    '03n': `${base_path}cloudy-1-night.svg`,
+    '04d': `${base_path}cloudy-1-day.svg`,
+    '04n': `${base_path}cloudy-1-night.svg`,
+    '09d': `${base_path}rainy-1-day.svg`,
+    '09n': `${base_path}rainy-1-night.svg`,
+    '10d': `${base_path}rainy-1-day.svg`,
+    '10n': `${base_path}rainy-1-night.svg`,
+    '11d': `${base_path}thunderstorm.svg`,
+    '11n': `${base_path}thunderstorm.svg`,
+    '13d': `${base_path}snowy-1-day.svg`,
+    '13n': `${base_path}snowy-1-night.svg`,
+    '50d': `${base_path}cloudy-1-day.svg`,
+    '50n': `${base_path}cloudy-1-night.svg`
+};
+
 function temp_conversion(kelvin){
     return kelvin - 273;
 }
@@ -67,7 +67,7 @@ function update_html(weather_obj,weather_obj_geo){
 
     // Updating main_details....
     const dt=time(current_obj.dt);
-    const path=path_helper(dt.ampm,dt.time,current_obj.weather[0].main);
+    const path=weatherIcons[current_obj.weather[0].icon];
     document.getElementById('main-details').childNodes[0].innerHTML=`<h1>${weather_obj_geo[0].state} ${weather_obj_geo[0].name}</h1>
     <h3>${time(current_obj.dt).alpha_month} ${time(current_obj.dt).date} ${time(current_obj.dt).year} </h3><img src=${path}><h1>${current_obj.weather[0].main}</h1>`
     document.getElementsByClassName('data')[0].innerHTML=`<h1>${temp_conversion(Math.floor(current_obj.temp))}<span>&deg</span></h1>`
@@ -79,7 +79,7 @@ function update_html(weather_obj,weather_obj_geo){
     hourly.forEach((element,index) => {
         if(index<12){
             const dt=time(element.dt);
-            const path=path_helper(dt.ampm,dt.time,element.weather[0].main);
+            const path=weatherIcons[element.weather[0].icon];
             hourly_card.innerHTML+=`<div class="cards"><div id="time"> ${dt.time}:00 ${dt.ampm}</div>
             <div id="img"><img src="${path}"></div>
             <div id="det">${temp_conversion(Math.floor(element.temp))}<span>&deg;C</span></div>
@@ -91,7 +91,7 @@ function update_html(weather_obj,weather_obj_geo){
     week_card.innerHTML="";
     weekly.forEach(element => {
         const dt=time(element.dt);
-        const path=path_helper(dt.ampm,dt.time,element.weather[0].main);
+        const path=weatherIcons[element.weather[0].icon];
         week_card.innerHTML+=`<div class="cards"><div id="time">${dt.week}</div>
         <div id="img"><img src="${path}"></div>
         <div id="det">${temp_conversion(Math.floor(element.temp.max))}<span>&deg;C</span></div>
